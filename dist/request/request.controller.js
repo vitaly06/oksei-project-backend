@@ -15,21 +15,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.RequestController = void 0;
 const common_1 = require("@nestjs/common");
 const request_service_1 = require("./request.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const path_1 = require("path");
 const create_request_dto_1 = require("./dto/create-request.dto");
+const multer_1 = require("multer");
 let RequestController = class RequestController {
     constructor(requestService) {
         this.requestService = requestService;
     }
-    async sendRequest(createRequestDto) {
+    async sendRequest(createRequestDto, file) {
+        createRequestDto.filePath = file.path;
         return this.requestService.create(createRequestDto);
     }
 };
 exports.RequestController = RequestController;
 __decorate([
     (0, common_1.Post)("sendRequest"),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './files',
+            filename: (req, file, cb) => {
+                const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+                cb(null, uniqueSuffix + (0, path_1.extname)(file.originalname));
+            }
+        })
+    })),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_request_dto_1.CreateRequestDto]),
+    __metadata("design:paramtypes", [create_request_dto_1.CreateRequestDto, Object]),
     __metadata("design:returntype", Promise)
 ], RequestController.prototype, "sendRequest", null);
 exports.RequestController = RequestController = __decorate([

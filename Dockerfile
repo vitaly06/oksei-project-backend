@@ -13,8 +13,9 @@ RUN yarn install --frozen-lockfile
 # Копируем все файлы проекта
 COPY . .
 
-# Устанавливаем необходимые инструменты для сборки
-RUN yarn global add @nestjs/cli
+RUN npx prisma generate
+
+
 
 # Компилируем TypeScript в JavaScript
 RUN yarn build

@@ -1,9 +1,9 @@
-import { RequestService } from './request.service';
-import { CreateRequestDto } from './dto/create-request.dto';
+import { RequestService } from "./request.service";
+import { CreateRequestDto } from "./dto/create-request.dto";
 export declare class RequestController {
     private readonly requestService;
     constructor(requestService: RequestService);
-    sendRequest(createRequestDto: CreateRequestDto): Promise<{
+    sendRequest(createRequestDto: CreateRequestDto, file: Express.Multer.File): Promise<{
         organizationName: string;
         contactPerson: string;
         phoneNumber: string;
