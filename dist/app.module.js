@@ -13,14 +13,16 @@ const request_service_1 = require("./request/request.service");
 const request_module_1 = require("./request/request.module");
 const prisma_service_1 = require("./prisma.service");
 const auth_module_1 = require("./auth/auth.module");
+const telegram_service_1 = require("./telegram.service");
+const admin_module_1 = require("./admin/admin.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [request_module_1.RequestModule, auth_module_1.AuthModule],
+        imports: [request_module_1.RequestModule, auth_module_1.AuthModule, admin_module_1.AdminModule],
         controllers: [request_controller_1.RequestController],
-        providers: [request_service_1.RequestService, prisma_service_1.PrismaService],
+        providers: [request_service_1.RequestService, prisma_service_1.PrismaService, telegram_service_1.TelegramService],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

@@ -11,13 +11,14 @@ const common_1 = require("@nestjs/common");
 const request_service_1 = require("./request.service");
 const request_controller_1 = require("./request.controller");
 const prisma_service_1 = require("../prisma.service");
+const telegram_service_1 = require("../telegram.service");
 let RequestModule = class RequestModule {
 };
 exports.RequestModule = RequestModule;
 exports.RequestModule = RequestModule = __decorate([
     (0, common_1.Module)({
         controllers: [request_controller_1.RequestController],
-        providers: [request_service_1.RequestService, prisma_service_1.PrismaService],
+        providers: [request_service_1.RequestService, prisma_service_1.PrismaService, telegram_service_1.TelegramService],
     })
 ], RequestModule);
 //# sourceMappingURL=request.module.js.map

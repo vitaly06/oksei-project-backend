@@ -1,8 +1,10 @@
 import { RequestService } from "./request.service";
 import { CreateRequestDto } from "./dto/create-request.dto";
+import { TelegramService } from "src/telegram.service";
 export declare class RequestController {
     private readonly requestService;
-    constructor(requestService: RequestService);
+    private readonly telegramService;
+    constructor(requestService: RequestService, telegramService: TelegramService);
     sendRequest(createRequestDto: CreateRequestDto, file: Express.Multer.File): Promise<{
         organizationName: string;
         contactPerson: string;

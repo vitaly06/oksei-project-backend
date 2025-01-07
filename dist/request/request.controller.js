@@ -19,13 +19,28 @@ const platform_express_1 = require("@nestjs/platform-express");
 const path_1 = require("path");
 const create_request_dto_1 = require("./dto/create-request.dto");
 const multer_1 = require("multer");
+const telegram_service_1 = require("../telegram.service");
 let RequestController = class RequestController {
-    constructor(requestService) {
+    constructor(requestService, telegramService) {
         this.requestService = requestService;
+        this.telegramService = telegramService;
     }
     async sendRequest(createRequestDto, file) {
         createRequestDto.filePath = file.path;
-        return this.requestService.create(createRequestDto);
+        const request = await this.requestService.create(createRequestDto);
+        const message = `
+      Новая заявка:
+      Организация: ${createRequestDto.organizationName}
+      Контактное лицо: ${createRequestDto.contactPerson}
+      Телефон: ${createRequestDto.phoneNumber}
+      Email: ${createRequestDto.email}
+      Дедлайн: ${createRequestDto.deadline}
+      Первая категория: ${createRequestDto.firstCategory}
+      Вторая категория: ${createRequestDto.secondCategory}
+      Описание: ${createRequestDto.description}
+    `;
+        await this.telegramService.sendMessage(message, createRequestDto.filePath);
+        return request;
     }
 };
 exports.RequestController = RequestController;
@@ -48,6 +63,7 @@ __decorate([
 ], RequestController.prototype, "sendRequest", null);
 exports.RequestController = RequestController = __decorate([
     (0, common_1.Controller)('requests'),
-    __metadata("design:paramtypes", [request_service_1.RequestService])
+    __metadata("design:paramtypes", [request_service_1.RequestService,
+        telegram_service_1.TelegramService])
 ], RequestController);
 //# sourceMappingURL=request.controller.js.map

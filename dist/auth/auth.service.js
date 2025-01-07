@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = require("@nestjs/common");
 const jwt_1 = require("@nestjs/jwt");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const prisma_service_1 = require("../prisma.service");
 let AuthService = class AuthService {
     constructor(jwtService, prisma) {
@@ -21,17 +21,17 @@ let AuthService = class AuthService {
     }
     async register(createUserDto) {
         const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-        const user = await this.prisma.user.create({
+        const user = await this.prisma.appUser.create({
             data: {
                 login: createUserDto.login,
                 email: createUserDto.email,
-                password: hashedPassword
-            }
+                password: hashedPassword,
+            },
         });
         return user;
     }
     async login(loginUserDto) {
-        const user = await this.prisma.user.findUnique({ where: { login: loginUserDto.login } });
+        const user = await this.prisma.appUser.findUnique({ where: { login: loginUserDto.login } });
         if (!user || !(await bcrypt.compare(loginUserDto.password, user.password))) {
             throw new common_1.UnauthorizedException();
         }

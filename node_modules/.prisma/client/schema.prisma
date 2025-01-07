@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -20,9 +21,30 @@ model Request {
   filePath         String
 }
 
-model User {
+model AppUser {
   userId   Int    @id @default(autoincrement())
   email    String @unique
   password String
   login    String @unique
+}
+
+model ProjectCard {
+  projectId   Int    @id @default(autoincrement())
+  projectName String
+  description String
+  filePath    String
+}
+
+model Admin {
+  adminId  Int    @id @default(autoincrement())
+  email    String @unique
+  login    String @unique
+  password String
+}
+
+model Teacher {
+  teacherId   Int    @id @default(autoincrement())
+  photoPath   String
+  fullName    String
+  description String
 }
