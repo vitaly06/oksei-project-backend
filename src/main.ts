@@ -7,8 +7,9 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
   app.enableCors();
-   // Обслуживание статических файлов из папки 'teachersImgs'
-   app.useStaticAssets(join(__dirname, '..', 'teachersImgs'));
+  app.useStaticAssets(join(__dirname, '..', 'uploads'), {
+    prefix: '/uploads/',
+  });
   await app.listen(process.env.PORT ?? 4200);
 }
 bootstrap();

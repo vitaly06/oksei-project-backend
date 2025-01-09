@@ -16,7 +16,7 @@ export class RequestController {
   @Post("sendRequest")
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: './files', 
+      destination: './uploads/files', 
       filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
         cb(null, uniqueSuffix + extname(file.originalname)); 

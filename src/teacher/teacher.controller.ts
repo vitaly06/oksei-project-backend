@@ -16,7 +16,7 @@ export class TeacherController {
   @Post('addTeacher')
   @UseInterceptors(FileInterceptor('photo'))
   async create(@UploadedFile() file: Express.Multer.File, @Body() body: Omit<Teacher, 'teacherId'>){
-    const photoPath = path.join('teachersImgs', file.filename);
+    const photoPath = path.join('uploads/teachersImgs', file.filename);
     const teacher = {...body, photoPath};
     return this.teacherService.create(teacher);
   }
@@ -31,7 +31,7 @@ export class TeacherController {
   async update(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() body: Partial<Omit<Teacher, 'teacherId'>>) {
     const teacherData: Partial<Omit<Teacher, 'teacherId'>> = { ...body };
     if (file) {
-      teacherData.photoPath = path.join('teachersImgs', file.filename);
+      teacherData.photoPath = path.join('uploads/teachersImgs', file.filename);
     }
     return this.teacherService.update(id, teacherData);
   }

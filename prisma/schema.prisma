@@ -28,13 +28,6 @@ model AppUser {
   login    String @unique
 }
 
-model ProjectCard {
-  projectId   Int    @id @default(autoincrement())
-  projectName String
-  description String
-  filePath    String
-}
-
 model Admin {
   adminId  Int    @id @default(autoincrement())
   email    String @unique
@@ -47,4 +40,23 @@ model Teacher {
   photoPath   String
   fullName    String
   description String
+}
+
+model Student {
+  studentId        Int    @id @default(autoincrement())
+  fullName         String
+  description      String
+  projectPhotoPath String
+  studentPhotoPath String
+}
+
+model Logo {
+  logoId   Int    @id @default(autoincrement())
+  logoPath String
+}
+
+model Stack {
+  stackId  Int    @id @default(autoincrement())
+  areaName String
+  stack    String
 }

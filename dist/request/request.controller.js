@@ -48,7 +48,7 @@ __decorate([
     (0, common_1.Post)("sendRequest"),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('file', {
         storage: (0, multer_1.diskStorage)({
-            destination: './files',
+            destination: './uploads/files',
             filename: (req, file, cb) => {
                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
                 cb(null, uniqueSuffix + (0, path_1.extname)(file.originalname));
