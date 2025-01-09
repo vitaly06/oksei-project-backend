@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { TeacherService } from './teacher.service';
 import { Teacher } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
-import path from 'path';
+import path, { extname } from 'path';
+import { diskStorage } from 'multer';
 
 @Controller('teacher')
 export class TeacherController {
@@ -14,10 +15,25 @@ export class TeacherController {
   }
 
   @Post('addTeacher')
-  @UseInterceptors(FileInterceptor('photo'))
+  @UseInterceptors(FileInterceptor('photo', {
+      storage: diskStorage({
+        destination: (req, file, cb) => {
+          // Указываем путь для сохранения файла
+          const folder = 'uploads/teacherImgs';
+          cb(null, folder);
+        },
+        filename: (req, file, cb) => {
+          const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+          const fileName = `teacher-${uniqueSuffix}${extname(file.originalname)}`;
+          cb(null, fileName);
+        },
+      }),
+    }))
   async create(@UploadedFile() file: Express.Multer.File, @Body() body: Omit<Teacher, 'teacherId'>){
-    const photoPath = path.join('uploads/teachersImgs', file.filename);
-    const teacher = {...body, photoPath};
+    if(!file){
+      throw new BadRequestException("Необходимо загрузить файл: photo")
+    }
+    const teacher = {...body, photoPath: `teacherImgs/${file.filename}`};
     return this.teacherService.create(teacher);
   }
 
@@ -27,11 +43,24 @@ export class TeacherController {
   }
 
   @Put(':id')
-  @UseInterceptors(FileInterceptor('photo'))
+  @UseInterceptors(FileInterceptor('photo', {
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        // Указываем путь для сохранения файла
+        const folder = 'uploads/teacherImgs';
+        cb(null, folder);
+      },
+      filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileName = `teacher-${uniqueSuffix}${extname(file.originalname)}`;
+        cb(null, fileName);
+      },
+    }),
+  }))
   async update(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() body: Partial<Omit<Teacher, 'teacherId'>>) {
     const teacherData: Partial<Omit<Teacher, 'teacherId'>> = { ...body };
     if (file) {
-      teacherData.photoPath = path.join('uploads/teachersImgs', file.filename);
+      teacherData.photoPath = path.join('teacherImgs', file.filename);
     }
     return this.teacherService.update(id, teacherData);
   }
