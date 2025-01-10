@@ -8,7 +8,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
--- SET transaction_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -225,11 +225,12 @@ ALTER SEQUENCE public."Stack_stackId_seq" OWNED BY public."Stack"."stackId";
 --
 
 CREATE TABLE public."Student" (
+    "studentId" integer NOT NULL,
     "fullName" text NOT NULL,
+    industry text NOT NULL,
     description text NOT NULL,
     "projectPhotoPath" text NOT NULL,
-    "studentPhotoPath" text NOT NULL,
-    "studentId" integer NOT NULL
+    "studentPhotoPath" text NOT NULL
 );
 
 
@@ -411,9 +412,9 @@ COPY public."Stack" ("stackId", "areaName", stack) FROM stdin;
 -- Data for Name: Student; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Student" ("fullName", description, "projectPhotoPath", "studentPhotoPath", "studentId") FROM stdin;
-Никита Безгин	Не только талантливый иллюстратор, но и невероятно эффективный работник. Он выполняет задачи быстро и качественно, всегда укладываясь в сроки. Его профессионализм и ответственность делают его ценным активом для любого проекта	projectPhoto/projectPhoto-1736438552761-135518564.png	personPhoto/personPhoto-1736438552767-722295565.jpg	2
-Никита Безгин	Не только талантливый фронтенд-разработчик, но и невероятно эффективный работник.  Его глубокие знания в области веб-технологий и внимание к деталям делают его ценным активом для любого проекта. Профессионализм и ответственность позволяют ему успешно справляться с любыми вызовами.	projectPhoto/projectPhoto-1736438935863-593231088.png	personPhoto/personPhoto-1736438935868-350456770.jpg	3
+COPY public."Student" ("studentId", "fullName", industry, description, "projectPhotoPath", "studentPhotoPath") FROM stdin;
+2	Каримулин Валей	Веб разработчик	Не только талантливый фронтенд-разработчик, но и невероятно эффективный работник.  Его глубокие знания в области веб-технологий и внимание к деталям делают его ценным активом для любого проекта. Профессионализм и ответственность позволяют ему успешно справляться с любыми вызовами.	projectPhoto/projectPhoto-1736525007120-482288398.png	personPhoto/personPhoto-1736525007125-990219500.jpg
+3	Никита Безгин	Иллюстратор	Не только талантливый иллюстратор, но и невероятно эффективный работник. Он выполняет задачи быстро и качественно, всегда укладываясь в сроки. Его профессионализм и ответственность делают его ценным активом для любого проекта	projectPhoto/projectPhoto-1736525060662-345252021.png	personPhoto/personPhoto-1736525060667-663136131.jpg
 \.
 
 
@@ -425,7 +426,7 @@ COPY public."Teacher" ("teacherId", "photoPath", "fullName", description) FROM s
 1	teacherImgs/teacher-1736447843879-867396970.jpg	Скомрохов Егор Константинович	frontend 
 2	teacherImgs/teacher-1736447896420-346531032.jpg	Садиков Виталий Дмитриевич	backend
 3	teacherImgs/teacher-1736447933213-727634458.jpg	Шкуратова Мария Николаевна	designer
-4	teacherImgs/teacher-1736448028979-833311703.jpg	Кузнецов Иван Юрьевич	mobile
+5	teacherImgs/teacher-1736523505862-124022625.jpg	Кузнецов Иван Юрьевич	mobile
 \.
 
 
@@ -434,6 +435,7 @@ COPY public."Teacher" ("teacherId", "photoPath", "fullName", description) FROM s
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
+ab6f41d2-d46f-4802-b428-e8ec5e611c4d	02a111489dde22592f3587fa5684ae3dfb98e6dd3f7e55df266cdde63a3c48a4	2025-01-10 20:55:36.746995+05	20250110155536_update_student	\N	\N	2025-01-10 20:55:36.741422+05	1
 5112069c-f45a-43e3-9ddf-5a41a7770413	0bd4dd2ac99dd666f4557da1495fd4f268016cabf6c825ad8338161155bd0142	2025-01-09 20:21:55.126916+05	20241224054358_init	\N	\N	2025-01-09 20:21:55.119006+05	1
 c64de051-4e10-443c-9a80-024e91fa4752	65b12fa64e0510f7eb77f91c54e501f91d7d28583829b69ddc9e714e8590dcb2	2025-01-09 20:21:55.132397+05	20241224081828_create_user_model	\N	\N	2025-01-09 20:21:55.127244+05	1
 8f5eaeb9-2c08-4e0e-9da2-6c8b906c4ace	db6877ead825796b1f7c810e7b4f112ee15e4a746a9928d0ca66b276bce5e05e	2025-01-09 20:21:55.138472+05	20241225164346_update_user	\N	\N	2025-01-09 20:21:55.132706+05	1
@@ -446,6 +448,7 @@ c2a0bb89-0d3d-4da2-bdd3-22b88e7cab22	679f87a3a0032a5f4f77b6826a46633e0c9799c119a
 da665f50-94ef-4379-bc38-a1ba2739858b	5012f5a75206d8930a1457d394afd0892360a1f75cd9fd561c55e433b5e13921	2025-01-09 21:16:16.745235+05	20250109161616_add_logo	\N	\N	2025-01-09 21:16:16.73882+05	1
 9adedc8e-e633-43e5-84d1-85c8ec0531e4	f33b94bb8f9bd5419c8601f0e7c90eff958559937372e2389b26bd72b75f9635	2025-01-09 22:49:10.636207+05	20250109174910_add_stack	\N	\N	2025-01-09 22:49:10.629838+05	1
 a3c078ca-8580-42ae-aada-a6c76ce2f5b5	851853fa6823396efcb9027abcfd1c97cd2a2d026a6975180a46be1f7233333c	2025-01-09 23:09:53.534438+05	20250109180953_new_stack	\N	\N	2025-01-09 23:09:53.526338+05	1
+508ce037-f62d-4e1c-96af-036e9ea5e54d	6da0d3b0f970ab4b71b8a9d28c71fe60bcb05449c850b58a3412a2f2f435ad15	2025-01-10 20:54:38.649979+05	20250110155438_delete_student	\N	\N	2025-01-10 20:54:38.644357+05	1
 \.
 
 
@@ -495,7 +498,7 @@ SELECT pg_catalog.setval('public."Student_studentId_seq"', 3, true);
 -- Name: Teacher_teacherId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Teacher_teacherId_seq"', 4, true);
+SELECT pg_catalog.setval('public."Teacher_teacherId_seq"', 5, true);
 
 
 --

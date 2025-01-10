@@ -35,19 +35,20 @@ model Admin {
   password String
 }
 
+model Student {
+  studentId        Int    @id @default(autoincrement())
+  fullName         String
+  industry         String
+  description      String
+  projectPhotoPath String
+  studentPhotoPath String
+}
+
 model Teacher {
   teacherId   Int    @id @default(autoincrement())
   photoPath   String
   fullName    String
   description String
-}
-
-model Student {
-  studentId        Int    @id @default(autoincrement())
-  fullName         String
-  description      String
-  projectPhotoPath String
-  studentPhotoPath String
 }
 
 model Logo {

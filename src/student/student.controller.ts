@@ -2,7 +2,6 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, U
 import { StudentService } from './student.service';
 import { Student } from '@prisma/client';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
-import { ParseFilePipe } from '@nestjs/common';
 import path, { extname } from 'path';
 import { CreateStudentDto } from './dto/add-student.dto';
 import * as fs from 'fs';
@@ -74,9 +73,6 @@ async update(
   @Param('id') id: number,
   @Body() body: CreateStudentDto,
   @UploadedFiles(
-    new ParseFilePipe({
-      // Удаляем валидатор типа файла, чтобы принимать все типы
-    }),
   )
   files: { projectPhoto?: Express.Multer.File[]; personPhoto?: Express.Multer.File[] },
 ) {
