@@ -6,6 +6,7 @@ import path, { extname } from 'path';
 import { CreateStudentDto } from './dto/add-student.dto';
 import * as fs from 'fs';
 import { diskStorage } from 'multer';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('student')
 export class StudentController {
@@ -17,6 +18,13 @@ export class StudentController {
   }
 
   @Post('addStudent')
+  @ApiBody({
+  
+      description: 'Данные заявки',
+  
+      type: CreateStudentDto, 
+  
+    })  
 @UseInterceptors(FileFieldsInterceptor([
   { name: 'projectPhoto', maxCount: 1 },
   { name: 'personPhoto', maxCount: 1 }

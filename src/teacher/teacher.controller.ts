@@ -2,8 +2,9 @@ import { BadRequestException, Body, Controller, Delete, Get, Param, Post, Put, U
 import { TeacherService } from './teacher.service';
 import { Teacher } from '@prisma/client';
 import { FileInterceptor } from '@nestjs/platform-express';
-import path, { extname } from 'path';
+import { extname } from 'path';
 import { diskStorage } from 'multer';
+import { ApiBody, ApiConsumes } from '@nestjs/swagger';
 
 @Controller('teacher')
 export class TeacherController {
@@ -15,10 +16,23 @@ export class TeacherController {
   }
 
   @Post('addTeacher')
+  @ApiConsumes('multipart/form-data') 
+  @ApiBody({
+    description: 'Данные учителя',
+    schema: {
+      type: "object",
+      properties: {
+        fullName: { type: 'string', description: 'Имя учителя' },
+        description: { type: 'string', description: 'описание' },
+        photo: { type: 'file', description: 'Фото учителя' },
+      },
+      required: ['fullName', 'description', 'photo'],
+    },
+
+  })
   @UseInterceptors(FileInterceptor('photo', {
       storage: diskStorage({
         destination: (req, file, cb) => {
-          // Указываем путь для сохранения файла
           const folder = 'uploads/teacherImgs';
           cb(null, folder);
         },
@@ -43,10 +57,22 @@ export class TeacherController {
   }
 
   @Put(':id')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    description: 'Данные учителя',
+    schema: {
+      type: "object",
+      properties: {
+        fullName: { type: 'string', description: 'Имя учителя' },
+        description: { type: 'string', description: 'описание' },
+        photo: { type: 'file', description: 'Фото учителя' },
+      },
+    },
+
+  })
   @UseInterceptors(FileInterceptor('photo', {
     storage: diskStorage({
       destination: (req, file, cb) => {
-        // Указываем путь для сохранения файла
         const folder = 'uploads/teacherImgs';
         cb(null, folder);
       },
@@ -57,10 +83,11 @@ export class TeacherController {
       },
     }),
   }))
+
   async update(@Param('id') id: number, @UploadedFile() file: Express.Multer.File, @Body() body: Partial<Omit<Teacher, 'teacherId'>>) {
     const teacherData: Partial<Omit<Teacher, 'teacherId'>> = { ...body };
     if (file) {
-      teacherData.photoPath = path.join('teacherImgs', file.filename);
+      teacherData.photoPath = `teacherImgs/${file.filename}`;
     }
     return this.teacherService.update(id, teacherData);
   }

@@ -20,13 +20,13 @@ export class TeacherService {
 
     async getTeacherById(id: number){
         return this.prisma.teacher.findUnique({
-            where: {teacherId: id}
+            where: {teacherId: Number(id)}
         })
     }
 
     async update(id: number, data: Partial<Omit<Teacher, 'teacherId'>>){
         return this.prisma.teacher.update({
-            where: {teacherId: id},
+            where: {teacherId: Number(id)},
             data
         })
     }

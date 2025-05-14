@@ -10,15 +10,13 @@ import { TeacherModule } from './teacher/teacher.module';
 import { StudentModule } from './student/student.module';
 import { join } from 'path';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { LogoModule } from './logo/logo.module';
-import { StackModule } from './stack/stack.module';
 
 @Module({
   imports: [
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'uploads'),
       serveRoot: '/api/uploads/'
-    }), RequestModule, AuthModule, AdminModule, TeacherModule, StudentModule, LogoModule, StackModule],
+    }), RequestModule, AuthModule, AdminModule, TeacherModule, StudentModule],
   controllers: [RequestController],
   providers: [RequestService, PrismaService, TelegramService],
 })

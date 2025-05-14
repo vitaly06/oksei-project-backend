@@ -5,7 +5,9 @@ import { extname } from "path";
 import { CreateRequestDto } from "./dto/create-request.dto";
 import { diskStorage } from 'multer'; 
 import { TelegramService } from "src/telegram.service";
+import { ApiBody, ApiTags } from "@nestjs/swagger";
 
+@ApiTags("Request(Форма заявки)")
 @Controller('requests')
 export class RequestController {
   constructor(
@@ -14,6 +16,13 @@ export class RequestController {
   ) {}
 
   @Post("sendRequest")
+  @ApiBody({
+
+    description: 'Данные заявки',
+
+    type: CreateRequestDto, 
+
+  })  
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './uploads/files', 
@@ -24,13 +33,8 @@ export class RequestController {
     })
   }))
   async sendRequest(@Body() createRequestDto: CreateRequestDto, @UploadedFile() file: Express.Multer.File) {
-    // Сохраняем путь к файлу в DTO
     createRequestDto.filePath = file.path; 
-
-    // Сохраняем данные в базе данных
     const request = await this.requestService.create(createRequestDto);
-
-    // Формируем сообщение для отправки в Telegram
     const message = `
       Новая заявка:
       Организация: ${createRequestDto.organizationName}
@@ -38,14 +42,10 @@ export class RequestController {
       Телефон: ${createRequestDto.phoneNumber}
       Email: ${createRequestDto.email}
       Дедлайн: ${createRequestDto.deadline}
-      Первая категория: ${createRequestDto.firstCategory}
-      Вторая категория: ${createRequestDto.secondCategory}
-      Описание: ${createRequestDto.description}
+      Вид задачи: ${createRequestDto.taskType}
     `;
-
-    // Отправляем сообщение в Telegram
     await this.telegramService.sendMessage(message, createRequestDto.filePath);
 
     return request;
   }
-}
+}         

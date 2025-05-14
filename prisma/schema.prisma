@@ -15,9 +15,6 @@ model Request {
   phoneNumber      String
   email            String
   deadline         String
-  firstCategory    String
-  secondCategory   String
-  description      String
   filePath         String
 }
 
@@ -49,15 +46,4 @@ model Teacher {
   photoPath   String
   fullName    String
   description String
-}
-
-model Logo {
-  logoId   Int    @id @default(autoincrement())
-  logoPath String
-}
-
-model Stack {
-  stackId  Int    @id @default(autoincrement())
-  areaName String
-  stack    String
 }

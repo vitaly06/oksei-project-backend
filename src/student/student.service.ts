@@ -27,7 +27,7 @@ export class StudentService {
 
     async findStudentById(id: number): Promise<Student>{
         return this.prisma.student.findUnique({
-            where: {studentId: id}
+            where: {studentId: Number(id)}
         })
     }
 

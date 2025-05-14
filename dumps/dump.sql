@@ -2,13 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.0
--- Dumped by pg_dump version 17.0
+-- Dumped from database version 14.17 (Ubuntu 14.17-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.17 (Ubuntu 14.17-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
--- SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -16,22 +15,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- Name: public; Type: SCHEMA; Schema: -; Owner: postgres
---
-
--- *not* creating schema, since initdb creates it
-
-
-ALTER SCHEMA public OWNER TO postgres;
-
---
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: postgres
---
-
-COMMENT ON SCHEMA public IS '';
-
 
 SET default_tablespace = '';
 
@@ -64,7 +47,7 @@ CREATE SEQUENCE public."Admin_adminId_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Admin_adminId_seq" OWNER TO postgres;
+ALTER TABLE public."Admin_adminId_seq" OWNER TO postgres;
 
 --
 -- Name: Admin_adminId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -100,47 +83,13 @@ CREATE SEQUENCE public."AppUser_userId_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."AppUser_userId_seq" OWNER TO postgres;
+ALTER TABLE public."AppUser_userId_seq" OWNER TO postgres;
 
 --
 -- Name: AppUser_userId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."AppUser_userId_seq" OWNED BY public."AppUser"."userId";
-
-
---
--- Name: Logo; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Logo" (
-    "logoId" integer NOT NULL,
-    "logoPath" text NOT NULL
-);
-
-
-ALTER TABLE public."Logo" OWNER TO postgres;
-
---
--- Name: Logo_logoId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Logo_logoId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public."Logo_logoId_seq" OWNER TO postgres;
-
---
--- Name: Logo_logoId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Logo_logoId_seq" OWNED BY public."Logo"."logoId";
 
 
 --
@@ -154,9 +103,6 @@ CREATE TABLE public."Request" (
     "phoneNumber" text NOT NULL,
     email text NOT NULL,
     deadline text NOT NULL,
-    "firstCategory" text NOT NULL,
-    "secondCategory" text NOT NULL,
-    description text NOT NULL,
     "filePath" text NOT NULL
 );
 
@@ -176,48 +122,13 @@ CREATE SEQUENCE public."Request_requestId_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Request_requestId_seq" OWNER TO postgres;
+ALTER TABLE public."Request_requestId_seq" OWNER TO postgres;
 
 --
 -- Name: Request_requestId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
 ALTER SEQUENCE public."Request_requestId_seq" OWNED BY public."Request"."requestId";
-
-
---
--- Name: Stack; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Stack" (
-    "stackId" integer NOT NULL,
-    "areaName" text NOT NULL,
-    stack text NOT NULL
-);
-
-
-ALTER TABLE public."Stack" OWNER TO postgres;
-
---
--- Name: Stack_stackId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Stack_stackId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER SEQUENCE public."Stack_stackId_seq" OWNER TO postgres;
-
---
--- Name: Stack_stackId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Stack_stackId_seq" OWNED BY public."Stack"."stackId";
 
 
 --
@@ -249,7 +160,7 @@ CREATE SEQUENCE public."Student_studentId_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Student_studentId_seq" OWNER TO postgres;
+ALTER TABLE public."Student_studentId_seq" OWNER TO postgres;
 
 --
 -- Name: Student_studentId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -285,7 +196,7 @@ CREATE SEQUENCE public."Teacher_teacherId_seq"
     CACHE 1;
 
 
-ALTER SEQUENCE public."Teacher_teacherId_seq" OWNER TO postgres;
+ALTER TABLE public."Teacher_teacherId_seq" OWNER TO postgres;
 
 --
 -- Name: Teacher_teacherId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -327,24 +238,10 @@ ALTER TABLE ONLY public."AppUser" ALTER COLUMN "userId" SET DEFAULT nextval('pub
 
 
 --
--- Name: Logo logoId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Logo" ALTER COLUMN "logoId" SET DEFAULT nextval('public."Logo_logoId_seq"'::regclass);
-
-
---
 -- Name: Request requestId; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Request" ALTER COLUMN "requestId" SET DEFAULT nextval('public."Request_requestId_seq"'::regclass);
-
-
---
--- Name: Stack stackId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Stack" ALTER COLUMN "stackId" SET DEFAULT nextval('public."Stack_stackId_seq"'::regclass);
 
 
 --
@@ -378,33 +275,10 @@ COPY public."AppUser" ("userId", email, password, login) FROM stdin;
 
 
 --
--- Data for Name: Logo; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Logo" ("logoId", "logoPath") FROM stdin;
-1	logo/logo-1736441072202-307164358.jpg
-2	logo/logo-1736441124141-557023845.jpg
-3	logo/logo-1736443858916-504658782.jpg
-\.
-
-
---
 -- Data for Name: Request; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Request" ("requestId", "organizationName", "contactPerson", "phoneNumber", email, deadline, "firstCategory", "secondCategory", description, "filePath") FROM stdin;
-1	ООО "Стройландия"	Андропов Валерий Тимофеевич	+78560371844	stroy-manager@yandex.ru	1 месяц	IT	Мобильное приложение	Необходимо мобильное приложение для магазина Стройландия. ТЗ прилагается в файле	uploads\\files\\1736441412104-492149680.xlsx
-\.
-
-
---
--- Data for Name: Stack; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Stack" ("stackId", "areaName", stack) FROM stdin;
-1	Разработка веб-сайта	HTML;CSS;JavaScript;React
-2	Графический дизайн	Photoshop;Illustrator
-3	Фото/Видео съёмка	Canon;Adobe Premiere
+COPY public."Request" ("requestId", "organizationName", "contactPerson", "phoneNumber", email, deadline, "filePath") FROM stdin;
 \.
 
 
@@ -413,8 +287,6 @@ COPY public."Stack" ("stackId", "areaName", stack) FROM stdin;
 --
 
 COPY public."Student" ("studentId", "fullName", industry, description, "projectPhotoPath", "studentPhotoPath") FROM stdin;
-2	Каримулин Валей	Веб разработчик	Не только талантливый фронтенд-разработчик, но и невероятно эффективный работник.  Его глубокие знания в области веб-технологий и внимание к деталям делают его ценным активом для любого проекта. Профессионализм и ответственность позволяют ему успешно справляться с любыми вызовами.	projectPhoto/projectPhoto-1736525007120-482288398.png	personPhoto/personPhoto-1736525007125-990219500.jpg
-3	Никита Безгин	Иллюстратор	Не только талантливый иллюстратор, но и невероятно эффективный работник. Он выполняет задачи быстро и качественно, всегда укладываясь в сроки. Его профессионализм и ответственность делают его ценным активом для любого проекта	projectPhoto/projectPhoto-1736525060662-345252021.png	personPhoto/personPhoto-1736525060667-663136131.jpg
 \.
 
 
@@ -423,10 +295,6 @@ COPY public."Student" ("studentId", "fullName", industry, description, "projectP
 --
 
 COPY public."Teacher" ("teacherId", "photoPath", "fullName", description) FROM stdin;
-1	teacherImgs/teacher-1736447843879-867396970.jpg	Скомрохов Егор Константинович	frontend 
-2	teacherImgs/teacher-1736447896420-346531032.jpg	Садиков Виталий Дмитриевич	backend
-3	teacherImgs/teacher-1736447933213-727634458.jpg	Шкуратова Мария Николаевна	designer
-5	teacherImgs/teacher-1736523505862-124022625.jpg	Кузнецов Иван Юрьевич	mobile
 \.
 
 
@@ -435,20 +303,24 @@ COPY public."Teacher" ("teacherId", "photoPath", "fullName", description) FROM s
 --
 
 COPY public._prisma_migrations (id, checksum, finished_at, migration_name, logs, rolled_back_at, started_at, applied_steps_count) FROM stdin;
-ab6f41d2-d46f-4802-b428-e8ec5e611c4d	02a111489dde22592f3587fa5684ae3dfb98e6dd3f7e55df266cdde63a3c48a4	2025-01-10 20:55:36.746995+05	20250110155536_update_student	\N	\N	2025-01-10 20:55:36.741422+05	1
-5112069c-f45a-43e3-9ddf-5a41a7770413	0bd4dd2ac99dd666f4557da1495fd4f268016cabf6c825ad8338161155bd0142	2025-01-09 20:21:55.126916+05	20241224054358_init	\N	\N	2025-01-09 20:21:55.119006+05	1
-c64de051-4e10-443c-9a80-024e91fa4752	65b12fa64e0510f7eb77f91c54e501f91d7d28583829b69ddc9e714e8590dcb2	2025-01-09 20:21:55.132397+05	20241224081828_create_user_model	\N	\N	2025-01-09 20:21:55.127244+05	1
-8f5eaeb9-2c08-4e0e-9da2-6c8b906c4ace	db6877ead825796b1f7c810e7b4f112ee15e4a746a9928d0ca66b276bce5e05e	2025-01-09 20:21:55.138472+05	20241225164346_update_user	\N	\N	2025-01-09 20:21:55.132706+05	1
-019ea313-19a0-437f-8956-a7a48f5304e4	76dcd8609309af740831bb2d8961d2b49a75e3845178dc353105ce0f66e6da68	2025-01-09 20:21:55.14181+05	20241226083713_add_cards	\N	\N	2025-01-09 20:21:55.138826+05	1
-4fa4ee0c-d7bf-4829-b002-e0cd06dbdd43	ca6783303fef021672ba43d6b443aae5c71695aa176ae6a48103c73e47cd78aa	2025-01-09 20:21:55.146344+05	20250105163112_add_admin	\N	\N	2025-01-09 20:21:55.142087+05	1
-bb7f878e-9cc6-42be-8c94-3b65df205e34	7f5625d4e52e2026dd1c2ccc6bd56ccc90634993941c68c4852de3a502aadebf	2025-01-09 20:21:55.148448+05	20250105163418_edit_admin	\N	\N	2025-01-09 20:21:55.146651+05	1
-7d037cab-3c11-4aa9-be93-6e278b9b0078	dc47e7d19074957e0fa78189bfcfa4223f1e64e65acecba4b5434cf79df73247	2025-01-09 20:21:55.152761+05	20250107071407_add_teacher	\N	\N	2025-01-09 20:21:55.148832+05	1
-c2a0bb89-0d3d-4da2-bdd3-22b88e7cab22	679f87a3a0032a5f4f77b6826a46633e0c9799c119a26177e42a45a879bddf58	2025-01-09 20:21:55.156018+05	20250108100640_add_student	\N	\N	2025-01-09 20:21:55.153073+05	1
-405200b5-3364-4081-9000-fe920534510e	a68138a46cb82d3b1c2f875afe6e93d283a6154ec57136026ae8803144499e3b	2025-01-09 20:21:55.79932+05	20250109152155_fix_student	\N	\N	2025-01-09 20:21:55.79288+05	1
-da665f50-94ef-4379-bc38-a1ba2739858b	5012f5a75206d8930a1457d394afd0892360a1f75cd9fd561c55e433b5e13921	2025-01-09 21:16:16.745235+05	20250109161616_add_logo	\N	\N	2025-01-09 21:16:16.73882+05	1
-9adedc8e-e633-43e5-84d1-85c8ec0531e4	f33b94bb8f9bd5419c8601f0e7c90eff958559937372e2389b26bd72b75f9635	2025-01-09 22:49:10.636207+05	20250109174910_add_stack	\N	\N	2025-01-09 22:49:10.629838+05	1
-a3c078ca-8580-42ae-aada-a6c76ce2f5b5	851853fa6823396efcb9027abcfd1c97cd2a2d026a6975180a46be1f7233333c	2025-01-09 23:09:53.534438+05	20250109180953_new_stack	\N	\N	2025-01-09 23:09:53.526338+05	1
-508ce037-f62d-4e1c-96af-036e9ea5e54d	6da0d3b0f970ab4b71b8a9d28c71fe60bcb05449c850b58a3412a2f2f435ad15	2025-01-10 20:54:38.649979+05	20250110155438_delete_student	\N	\N	2025-01-10 20:54:38.644357+05	1
+d234df21-f367-4f05-8ccf-f0dc86979675	02a111489dde22592f3587fa5684ae3dfb98e6dd3f7e55df266cdde63a3c48a4	2025-03-05 13:00:21.604856+05	20250110155536_update_student	\N	\N	2025-03-05 13:00:21.591193+05	1
+1d901a4c-2993-47d1-903b-b8acfed717e7	0bd4dd2ac99dd666f4557da1495fd4f268016cabf6c825ad8338161155bd0142	2025-03-05 13:00:21.348497+05	20241224054358_init	\N	\N	2025-03-05 13:00:21.328869+05	1
+55d5894a-6a7b-4575-9597-269ab0fc3e60	65b12fa64e0510f7eb77f91c54e501f91d7d28583829b69ddc9e714e8590dcb2	2025-03-05 13:00:21.37331+05	20241224081828_create_user_model	\N	\N	2025-03-05 13:00:21.350985+05	1
+04674295-a9d6-4260-9d30-5e62ef7ea4a6	db6877ead825796b1f7c810e7b4f112ee15e4a746a9928d0ca66b276bce5e05e	2025-03-05 13:00:21.410456+05	20241225164346_update_user	\N	\N	2025-03-05 13:00:21.376144+05	1
+283b3678-893d-4bbf-9183-26d2f9c8b58c	f9e440d5853c2754c22e17d1a40e03a9d93710667f1f6de9a1a6558f588aef1a	2025-03-05 13:00:21.613069+05	20250118101150_edit_teacher_fields	\N	\N	2025-03-05 13:00:21.606775+05	1
+aa9055da-d73a-4838-b991-282a868d5bef	76dcd8609309af740831bb2d8961d2b49a75e3845178dc353105ce0f66e6da68	2025-03-05 13:00:21.432411+05	20241226083713_add_cards	\N	\N	2025-03-05 13:00:21.414536+05	1
+9b08827f-76ac-400e-9c2a-27685a2320ce	ca6783303fef021672ba43d6b443aae5c71695aa176ae6a48103c73e47cd78aa	2025-03-05 13:00:21.454189+05	20250105163112_add_admin	\N	\N	2025-03-05 13:00:21.435295+05	1
+74455d9f-c77b-4020-8f19-8f051ce121c9	7f5625d4e52e2026dd1c2ccc6bd56ccc90634993941c68c4852de3a502aadebf	2025-03-05 13:00:21.469304+05	20250105163418_edit_admin	\N	\N	2025-03-05 13:00:21.456487+05	1
+bb43a737-5cec-472c-9988-539e0d4c5f9e	acad8e98ccb28a72acae62bbf798ace05277a798b21b28c2326a99eab8dd121f	2025-03-05 13:00:21.622349+05	20250120072724_update_request	\N	\N	2025-03-05 13:00:21.615025+05	1
+99a31786-5399-4c4b-832b-3e6c47e9c15f	dc47e7d19074957e0fa78189bfcfa4223f1e64e65acecba4b5434cf79df73247	2025-03-05 13:00:21.488205+05	20250107071407_add_teacher	\N	\N	2025-03-05 13:00:21.471657+05	1
+24a2ed9b-c44b-488e-a3d7-17e9e41c2b54	679f87a3a0032a5f4f77b6826a46633e0c9799c119a26177e42a45a879bddf58	2025-03-05 13:00:21.506151+05	20250108100640_add_student	\N	\N	2025-03-05 13:00:21.491436+05	1
+47e7e76f-f50f-4a4e-a2db-0479c0beaa00	a68138a46cb82d3b1c2f875afe6e93d283a6154ec57136026ae8803144499e3b	2025-03-05 13:00:21.525327+05	20250109152155_fix_student	\N	\N	2025-03-05 13:00:21.508552+05	1
+99b60d0d-2a98-43d1-9a01-1031f36329aa	4eac04f448a3c60c4bed3ba8d605250bb768baa42c7289d2cb10d590d5e991b4	2025-03-05 13:00:22.920116+05	20250305080022_clear_backend	\N	\N	2025-03-05 13:00:22.912283+05	1
+0620a1e1-3b8d-4370-95bf-7e1b9151ce96	5012f5a75206d8930a1457d394afd0892360a1f75cd9fd561c55e433b5e13921	2025-03-05 13:00:21.541512+05	20250109161616_add_logo	\N	\N	2025-03-05 13:00:21.527186+05	1
+051a8a6d-d45b-4834-9892-0e28bb16c042	f33b94bb8f9bd5419c8601f0e7c90eff958559937372e2389b26bd72b75f9635	2025-03-05 13:00:21.559689+05	20250109174910_add_stack	\N	\N	2025-03-05 13:00:21.544329+05	1
+46ba3cfb-928a-4153-9b5d-e132dc00e38f	851853fa6823396efcb9027abcfd1c97cd2a2d026a6975180a46be1f7233333c	2025-03-05 13:00:21.578533+05	20250109180953_new_stack	\N	\N	2025-03-05 13:00:21.562875+05	1
+9d333aa6-d37c-4dbb-852a-e735bf59d419	165abc5833ab32440701795894fa30bc6896526bb809b6ff5d9899eab662aa24	2025-04-11 11:26:55.706962+05	20250411062655_delete_task_type	\N	\N	2025-04-11 11:26:55.699404+05	1
+c5a76c0d-3d4f-481d-907a-9878ee6a000f	6da0d3b0f970ab4b71b8a9d28c71fe60bcb05449c850b58a3412a2f2f435ad15	2025-03-05 13:00:21.58963+05	20250110155438_delete_student	\N	\N	2025-03-05 13:00:21.580453+05	1
 \.
 
 
@@ -467,38 +339,24 @@ SELECT pg_catalog.setval('public."AppUser_userId_seq"', 1, false);
 
 
 --
--- Name: Logo_logoId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Logo_logoId_seq"', 3, true);
-
-
---
 -- Name: Request_requestId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Request_requestId_seq"', 1, true);
-
-
---
--- Name: Stack_stackId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Stack_stackId_seq"', 3, true);
+SELECT pg_catalog.setval('public."Request_requestId_seq"', 1, false);
 
 
 --
 -- Name: Student_studentId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Student_studentId_seq"', 3, true);
+SELECT pg_catalog.setval('public."Student_studentId_seq"', 1, false);
 
 
 --
 -- Name: Teacher_teacherId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Teacher_teacherId_seq"', 5, true);
+SELECT pg_catalog.setval('public."Teacher_teacherId_seq"', 1, false);
 
 
 --
@@ -518,27 +376,11 @@ ALTER TABLE ONLY public."AppUser"
 
 
 --
--- Name: Logo Logo_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Logo"
-    ADD CONSTRAINT "Logo_pkey" PRIMARY KEY ("logoId");
-
-
---
 -- Name: Request Request_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public."Request"
     ADD CONSTRAINT "Request_pkey" PRIMARY KEY ("requestId");
-
-
---
--- Name: Stack Stack_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Stack"
-    ADD CONSTRAINT "Stack_pkey" PRIMARY KEY ("stackId");
 
 
 --
@@ -591,13 +433,6 @@ CREATE UNIQUE INDEX "AppUser_email_key" ON public."AppUser" USING btree (email);
 --
 
 CREATE UNIQUE INDEX "AppUser_login_key" ON public."AppUser" USING btree (login);
-
-
---
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE USAGE ON SCHEMA public FROM PUBLIC;
 
 
 --
