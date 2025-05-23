@@ -17,7 +17,7 @@ COPY . .
 RUN npx prisma generate
 
 # Запускаем миграции и приложение
-CMD ["npm", "run", "start:migrate:prod"]
+CMD ["npm", "run", "start:dev"]
 
 # Открываем порт, на котором будет работать приложение
 EXPOSE 4200

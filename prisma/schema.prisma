@@ -9,41 +9,11 @@ datasource db {
 }
 
 model Request {
-  requestId        Int    @id @default(autoincrement())
-  organizationName String
+  requestId        Int     @id @default(autoincrement())
+  organizationName String?
   contactPerson    String
   phoneNumber      String
   email            String
-  deadline         String
-  filePath         String
-}
-
-model AppUser {
-  userId   Int    @id @default(autoincrement())
-  email    String @unique
-  password String
-  login    String @unique
-}
-
-model Admin {
-  adminId  Int    @id @default(autoincrement())
-  email    String @unique
-  login    String @unique
-  password String
-}
-
-model Student {
-  studentId        Int    @id @default(autoincrement())
-  fullName         String
-  industry         String
-  description      String
-  projectPhotoPath String
-  studentPhotoPath String
-}
-
-model Teacher {
-  teacherId   Int    @id @default(autoincrement())
-  photoPath   String
-  fullName    String
-  description String
+  category         String
+  filePath         String?
 }

@@ -21,89 +21,17 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: Admin; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Admin" (
-    "adminId" integer NOT NULL,
-    login text NOT NULL,
-    password text NOT NULL,
-    email text NOT NULL
-);
-
-
-ALTER TABLE public."Admin" OWNER TO postgres;
-
---
--- Name: Admin_adminId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Admin_adminId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Admin_adminId_seq" OWNER TO postgres;
-
---
--- Name: Admin_adminId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Admin_adminId_seq" OWNED BY public."Admin"."adminId";
-
-
---
--- Name: AppUser; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."AppUser" (
-    "userId" integer NOT NULL,
-    email text NOT NULL,
-    password text NOT NULL,
-    login text NOT NULL
-);
-
-
-ALTER TABLE public."AppUser" OWNER TO postgres;
-
---
--- Name: AppUser_userId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."AppUser_userId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."AppUser_userId_seq" OWNER TO postgres;
-
---
--- Name: AppUser_userId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."AppUser_userId_seq" OWNED BY public."AppUser"."userId";
-
-
---
 -- Name: Request; Type: TABLE; Schema: public; Owner: postgres
 --
 
 CREATE TABLE public."Request" (
     "requestId" integer NOT NULL,
-    "organizationName" text NOT NULL,
+    "organizationName" text,
     "contactPerson" text NOT NULL,
     "phoneNumber" text NOT NULL,
     email text NOT NULL,
-    deadline text NOT NULL,
-    "filePath" text NOT NULL
+    "filePath" text,
+    category text NOT NULL
 );
 
 
@@ -132,80 +60,6 @@ ALTER SEQUENCE public."Request_requestId_seq" OWNED BY public."Request"."request
 
 
 --
--- Name: Student; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Student" (
-    "studentId" integer NOT NULL,
-    "fullName" text NOT NULL,
-    industry text NOT NULL,
-    description text NOT NULL,
-    "projectPhotoPath" text NOT NULL,
-    "studentPhotoPath" text NOT NULL
-);
-
-
-ALTER TABLE public."Student" OWNER TO postgres;
-
---
--- Name: Student_studentId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Student_studentId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Student_studentId_seq" OWNER TO postgres;
-
---
--- Name: Student_studentId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Student_studentId_seq" OWNED BY public."Student"."studentId";
-
-
---
--- Name: Teacher; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public."Teacher" (
-    "teacherId" integer NOT NULL,
-    "photoPath" text NOT NULL,
-    "fullName" text NOT NULL,
-    description text NOT NULL
-);
-
-
-ALTER TABLE public."Teacher" OWNER TO postgres;
-
---
--- Name: Teacher_teacherId_seq; Type: SEQUENCE; Schema: public; Owner: postgres
---
-
-CREATE SEQUENCE public."Teacher_teacherId_seq"
-    AS integer
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE public."Teacher_teacherId_seq" OWNER TO postgres;
-
---
--- Name: Teacher_teacherId_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
---
-
-ALTER SEQUENCE public."Teacher_teacherId_seq" OWNED BY public."Teacher"."teacherId";
-
-
---
 -- Name: _prisma_migrations; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -224,20 +78,6 @@ CREATE TABLE public._prisma_migrations (
 ALTER TABLE public._prisma_migrations OWNER TO postgres;
 
 --
--- Name: Admin adminId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Admin" ALTER COLUMN "adminId" SET DEFAULT nextval('public."Admin_adminId_seq"'::regclass);
-
-
---
--- Name: AppUser userId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."AppUser" ALTER COLUMN "userId" SET DEFAULT nextval('public."AppUser_userId_seq"'::regclass);
-
-
---
 -- Name: Request requestId; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -245,56 +85,10 @@ ALTER TABLE ONLY public."Request" ALTER COLUMN "requestId" SET DEFAULT nextval('
 
 
 --
--- Name: Student studentId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Student" ALTER COLUMN "studentId" SET DEFAULT nextval('public."Student_studentId_seq"'::regclass);
-
-
---
--- Name: Teacher teacherId; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Teacher" ALTER COLUMN "teacherId" SET DEFAULT nextval('public."Teacher_teacherId_seq"'::regclass);
-
-
---
--- Data for Name: Admin; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Admin" ("adminId", login, password, email) FROM stdin;
-\.
-
-
---
--- Data for Name: AppUser; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."AppUser" ("userId", email, password, login) FROM stdin;
-\.
-
-
---
 -- Data for Name: Request; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public."Request" ("requestId", "organizationName", "contactPerson", "phoneNumber", email, deadline, "filePath") FROM stdin;
-\.
-
-
---
--- Data for Name: Student; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Student" ("studentId", "fullName", industry, description, "projectPhotoPath", "studentPhotoPath") FROM stdin;
-\.
-
-
---
--- Data for Name: Teacher; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public."Teacher" ("teacherId", "photoPath", "fullName", description) FROM stdin;
+COPY public."Request" ("requestId", "organizationName", "contactPerson", "phoneNumber", email, "filePath", category) FROM stdin;
 \.
 
 
@@ -321,21 +115,8 @@ bb43a737-5cec-472c-9988-539e0d4c5f9e	acad8e98ccb28a72acae62bbf798ace05277a798b21
 46ba3cfb-928a-4153-9b5d-e132dc00e38f	851853fa6823396efcb9027abcfd1c97cd2a2d026a6975180a46be1f7233333c	2025-03-05 13:00:21.578533+05	20250109180953_new_stack	\N	\N	2025-03-05 13:00:21.562875+05	1
 9d333aa6-d37c-4dbb-852a-e735bf59d419	165abc5833ab32440701795894fa30bc6896526bb809b6ff5d9899eab662aa24	2025-04-11 11:26:55.706962+05	20250411062655_delete_task_type	\N	\N	2025-04-11 11:26:55.699404+05	1
 c5a76c0d-3d4f-481d-907a-9878ee6a000f	6da0d3b0f970ab4b71b8a9d28c71fe60bcb05449c850b58a3412a2f2f435ad15	2025-03-05 13:00:21.58963+05	20250110155438_delete_student	\N	\N	2025-03-05 13:00:21.580453+05	1
+4b20a811-7c92-4702-8327-110319ba2d85	6fc1bdfb062295fe8d2b2e046ed9bb5eefaf1b300ce3ef96c4f1e6efe4255d1b	2025-05-23 11:21:03.436421+05	20250523062103_clean_db	\N	\N	2025-05-23 11:21:03.420879+05	1
 \.
-
-
---
--- Name: Admin_adminId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Admin_adminId_seq"', 1, false);
-
-
---
--- Name: AppUser_userId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."AppUser_userId_seq"', 1, false);
 
 
 --
@@ -343,36 +124,6 @@ SELECT pg_catalog.setval('public."AppUser_userId_seq"', 1, false);
 --
 
 SELECT pg_catalog.setval('public."Request_requestId_seq"', 1, false);
-
-
---
--- Name: Student_studentId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Student_studentId_seq"', 1, false);
-
-
---
--- Name: Teacher_teacherId_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
---
-
-SELECT pg_catalog.setval('public."Teacher_teacherId_seq"', 1, false);
-
-
---
--- Name: Admin Admin_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Admin"
-    ADD CONSTRAINT "Admin_pkey" PRIMARY KEY ("adminId");
-
-
---
--- Name: AppUser AppUser_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."AppUser"
-    ADD CONSTRAINT "AppUser_pkey" PRIMARY KEY ("userId");
 
 
 --
@@ -384,55 +135,11 @@ ALTER TABLE ONLY public."Request"
 
 
 --
--- Name: Student Student_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Student"
-    ADD CONSTRAINT "Student_pkey" PRIMARY KEY ("studentId");
-
-
---
--- Name: Teacher Teacher_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public."Teacher"
-    ADD CONSTRAINT "Teacher_pkey" PRIMARY KEY ("teacherId");
-
-
---
 -- Name: _prisma_migrations _prisma_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public._prisma_migrations
     ADD CONSTRAINT _prisma_migrations_pkey PRIMARY KEY (id);
-
-
---
--- Name: Admin_email_key; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX "Admin_email_key" ON public."Admin" USING btree (email);
-
-
---
--- Name: Admin_login_key; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX "Admin_login_key" ON public."Admin" USING btree (login);
-
-
---
--- Name: AppUser_email_key; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX "AppUser_email_key" ON public."AppUser" USING btree (email);
-
-
---
--- Name: AppUser_login_key; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE UNIQUE INDEX "AppUser_login_key" ON public."AppUser" USING btree (login);
 
 
 --
